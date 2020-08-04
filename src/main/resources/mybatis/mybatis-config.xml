@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "mybatis-3-config.dtd" >
+<configuration>
+	<!-- 1 引入DB配置文件 db.properties -->
+	<properties resource="db.properties"></properties>
+	<!-- 2 指定Mybatis日志具体实现 -->
+	<settings>
+		<setting name="logImpl" value="log4j"/>
+	</settings>
+
+	<!--3 别名-->
+	<typeAliases>
+		<package name="com.stte.domain"/>
+	</typeAliases>
+
+	<!--4 拦截器-->
+	<!--<plugins>-->
+		<!--<plugin interceptor=""></plugin>-->
+	<!--</plugins>-->
+
+	<!--5 对象工厂-->
+	<!--<objectFactory type="test">-->
+		<!--<property name="" value=""/>-->
+	<!--</objectFactory>-->
+
+	<!--6 对象包装工厂-->
+	<!--<objectWrapperFactory type="test"></objectWrapperFactory>-->
+
+	<!--7 reflectorFactory-->
+
+	<!-- 8 environments 配置数据源环境 -->
+	<environments default="mysql">
+		<environment id="mysql">
+			<!-- 指定事务管理类型 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- dataSource指定数据源配置，POOLED是JDBC连接对象的数据源连接池的实现 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${dataSource.driverClass}"/>
+				<property name="url" value="${dataSource.jdbcUrl}"/>
+				<property name="username" value="${dataSource.user}"/>
+				<property name="password" value="${dataSource.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!--9 databaseIdProvider-->
+	<!--<databaseIdProvider type="ss"><property name="ss" value="ss"/></databaseIdProvider>-->
+
+	<!--10 typeHandlers 类型处理器-->
+	<!--<typeHandlers>-->
+		<!--<package name="com.stte.mapper"/>-->
+		<!--<typeHandler handler="class"/>-->
+	<!--</typeHandlers>-->
+
+	<!-- 11 mappers 配置持久化类的映射文件的扫描路径 -->
+	<mappers>
+		<!--<package name="com.stte.mapper"/>-->
+		<mapper resource="mybatis/mappers/BookMapper.xml"/>
+		<mapper resource="mybatis/mappers/ClassStudentMapper.xml"/>
+		<mapper resource="mybatis/mappers/DebtPlatStructMapper.xml"/>
+		<mapper resource="mybatis/generator/TbBookMapper.xml"/>
+	</mappers>
+</configuration>

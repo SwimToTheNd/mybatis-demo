@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.stte.mapper.ClassStudentMapper">
+
+	<resultMap type="clazz" id="clazzinfoResultMap">
+		<id property="id" column="id" />
+		<result property="classname" column="code" javaType="string"
+			jdbcType="VARCHAR" />
+		<collection property="students" column="id" javaType="list"
+			ofType="student" select="selectStudentByClassId"></collection>
+	</resultMap>
+
+	<select id="getClazzInfo" resultMap="clazzinfoResultMap">
+		SELECT * FROM tb_class;
+	</select>
+
+	<select id="selectStudentByClassId" resultType="student">
+		select * from
+		tb_student where class_id = #{id}
+	</select>
+
+	<select id="getStudentClassInfoByID" resultMap="getStudentClassInfoByIDResultMap">
+		select * from
+		tb_student where id =#{id}
+	</select>
+
+	<resultMap type="StudentClassInfo" id="getStudentClassInfoByIDResultMap">
+		<result property="name" column="name" />
+		<result property="sex" column="sex" />
+		<association property="clazz" column="class_id" select="getClazzById">
+		</association>
+	</resultMap>
+	
+	<select id="getClazzById" resultType="clazz">
+		select id, code classname from tb_class where id=#{class_id}
+	</select>
+</mapper>

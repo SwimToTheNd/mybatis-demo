@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.stte.mapper.DebtPlatStructMapper">
+
+	<!-- type:返回的实际类型 -->
+	<resultMap type="DebtPlatStruct" id="getDebtPlatStructResultMap">
+		<!-- property:类的属性， column：表列名 -->
+		<result property="debtType" column="debt_type" javaType="string" jdbcType="VARCHAR"/>
+		<!-- property:该属性在类中的名称 column:使用column作为参数 进行之后select的查询 javaType:该属性在类中的类型 ofType:集合中的类型 -->
+		<collection select="selectPeriodByDebtType" property="periods" column="debt_type" javaType="list" ofType="string">
+		</collection>
+		<collection select="selectDebtTypeLV" property="debtTypeLvs" column="debt_type" javaType="list" ofType="double">
+		</collection>
+	</resultMap>
+	
+	<select id="selectPeriodByDebtType" resultType="string" >
+		select distinct period from debtplatstruct where debt_type = #{debt_type}
+		order by period
+		limit 0, 5;
+	</select>
+	
+	<select id="selectDebtTypeLV" resultType="double">
+		select debt_type_lv from debtplatstruct where debt_type = #{debt_type} order by period;
+	</select>
+	
+	<select id="getDebtPlatStruct" resultMap="getDebtPlatStructResultMap">
+		select debt_type from debtplatstruct group by debt_type
+	</select>
+	
+	<select id="getDebtPlatStructInfoById" resultMap="getDebtPlatStructInfoResultMap">
+		select * from debtplatstruct where period = #{period}
+	</select>
+	
+	<resultMap type="DebtPlatStructInfo" id="getDebtPlatStructInfoResultMap">
+		<id property="id" column="id"/>
+		<result property="period" column="period"/>
+		<result property="debtType" column="debt_type"/>
+		<result property="debtTypeLv" column="debt_type_lv"/>
+	</resultMap>
+</mapper>

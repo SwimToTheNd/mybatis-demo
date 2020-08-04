@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.stte.mapper.BookMapper">
+	<select id="getBookById" resultType="book" parameterType="int">
+		select * from tb_book where
+		id = #{id}
+	</select>
+
+	<select id="getAllBooks" resultType="book">
+		select * from tb_book
+	</select>
+
+	<!-- 使用数据库的自动增长主键（需要底层数据库的支持 oracle不支持 默认false） 自动生成的主键设置到keyProperty所指定的列中 -->
+	<insert id="insertBook" parameterType="book" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into tb_book (name, author, publicationdate,
+		publication, price, image, remark)
+		values(#{name},#{author},#{publicationdate},#{publication},#{price},#{image},#{remark});
+	</insert>
+	
+	<select id="selectAllBook" parameterType="string" resultType="list">
+		select * from tb_book where name = #{name}
+	</select>
+	
+	<select id="selectMapTest" resultType="map">
+		select 1, 2, 3, 4
+	</select>
+	
+	<!-- wrong use
+	<select id="selectListTest" resultType="list">-->
+		<!--select 1, 2, 3, 4-->
+	<!--</select>-->
+</mapper>
